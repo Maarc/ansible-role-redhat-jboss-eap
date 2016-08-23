@@ -1,0 +1,28 @@
+---
+language: python
+python: "2.7"
+
+sudo: required
+dist: trusty
+
+env:
+  global:
+    # Ignore host checks
+    - ANSIBLE_HOST_KEY_CHECKING=False
+
+install:
+  # Install ansible
+  - pip install ansible==2.1.1.0
+
+  # Check ansible version
+  - ansible --version
+
+  # Install prerequisites
+  - ansible-galaxy install -r tests/requirements.yml -p tests/roles
+
+script:
+  # Basic role syntax check
+  - ansible-playbook -i tests/inventory tests/main.yml --syntax-check
+
+#notifications:
+#  webhooks: https://galaxy.ansible.com/api/v1/notifications/
