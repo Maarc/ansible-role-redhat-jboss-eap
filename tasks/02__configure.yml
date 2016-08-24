@@ -26,7 +26,7 @@
       owner: "{{ jboss.user }}"
       group: "{{ jboss.group }}"
       state: directory
-      mode: "755"
+      mode: "0755"
 
   - name: "{{ jboss_eap_instance_name }} {{ info }} Copy init.d script (jboss-as-standalone.sh)"
     copy:
@@ -35,7 +35,7 @@
       group: "{{ jboss.group }}"
       src: "{{ jboss_home }}/bin/init.d/jboss-as-standalone.sh"
       dest: "{{ target_dir }}/service/jboss-as-standalone.sh"
-      mode: "755"
+      mode: "0755"
 
   when: conf_00.stat.isdir is undefined or conf_00.stat.isdir == False
 
@@ -62,7 +62,7 @@
     group: "{{ jboss.group }}"
     src: jboss-as.conf.j2
     dest: "{{ target_dir }}/service/jboss-as.conf"
-    mode: "755"
+    mode: "0755"
   register: conf_03
 
 - name: "{{ jboss_eap_instance_name }} {{ info }} Update standalone.conf (1/2)"
@@ -125,7 +125,7 @@
     group: "{{ jboss.group }}"
     src: jboss-as-standalone.service.j2
     dest: "{{ target_dir }}/service/{{ jboss_eap_instance_service_name }}.service"
-    mode: "755"
+    mode: "0755"
   register: conf_08
 
 - name: "{{ jboss_eap_instance_name }} {{ info }} Generate instance.info file"
@@ -134,7 +134,7 @@
     group: "{{ jboss.group }}"
     src: instance.info.j2
     dest: "{{ target_dir }}/instance.info"
-    mode: "644"
+    mode: "0644"
   register: conf_09
 
 - name: "{{ jboss_eap_instance_name }} {{ info }} Update mgmt-*.properties"
@@ -146,7 +146,6 @@
     - { dest: "{{ target_dir }}/configuration/mgmt-users.properties", line: 'redhat=ba2caa9378fa898f1dea88804abe52b4' }
     - { dest: "{{ target_dir }}/configuration/mgmt-groups.properties", line: 'redhat=' }
   register: conf_10
-
 
 - name: "{{ jboss_eap_instance_name }} {{ info }} Copy CLI file from the file system"
   copy:
