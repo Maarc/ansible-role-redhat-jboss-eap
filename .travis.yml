@@ -44,13 +44,6 @@ script:
   # Run the role/playbook with ansible-playbook.
   - sudo ansible-playbook -i test/inventory test/main.yml
 
-  # Run the role/playbook again, checking to make sure it's idempotent.
-  - >
-      sudo ansible-playbook -i test/inventory test/main.yml
-      | grep -q 'changed=0.*failed=0'
-      && (echo 'Idempotence test: pass' && exit 0)
-      || (echo 'Idempotence test: fail' && exit 1)
-
 notifications:
   # notify ansible galaxy of test results
   webhooks: http://galaxy-qa.ansible.com/api/v1/notifications/
