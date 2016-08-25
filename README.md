@@ -2,29 +2,97 @@ Ansible role: "Red Hat JBoss EAP" [![Build Status](https://travis-ci.org/Maarc/a
 =================================
 
 
+Description
+-----------
+
+Advanced Ansible role that installs and manages instances of [Red Hat JBoss Enterprise Application Platform (EAP) 6 or 7](https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/).
+
+Core implemented features in this role:
+
+- multiple parallel versions and profile support
+- multiple Red Hat JBoss EAP instances per host
+- graceful orchestration and shutdown (prerequisite for rolling updates)
+- application deployment using nexus or local files
+- configuration of the Red Hat JBoss EAP instances using the CLI
+
+Please have a look at [this example](https://github.com/Maarc/ansible_middleware_soe) showing how to easily operate Red Hat JBoss middleware products using this role.
+
+
+
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+This has been tested on Ansible 1.9.4 and higher. It requires Red Hat Enterprise Linux 7.
+
+
+Dependencies
+------------
+
+None.
+
+
+Installation
+------------
+
+  ansible-galaxy install Maarc.rh-jboss-common
+
 
 
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
 
 
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+-
 
 
 Example Playbook
 ----------------
 
+Here is a playbook creating three JBoss EAP instances on every host in "jboss-group":
+
+    - hosts: "jboss-group"
+      roles:
+        - {
+            # JBoss EAP 7 instance for the ticket-monster application
+            role: "rh-jboss-eap",
+            jboss_eap_golden_image_name: "jboss-eap-6.4.8_GI",
+            jboss_eap_instance_name: "ticket_monster",
+            jboss_eap_instance_standalone_file: "standalone-full-ha.xml",
+            jboss_eap_instance_port_offset: 0,
+            app_list: { "ticket-monster.war" },
+            cli_list: { "add_datasource.cli", "add_mod_cluster_6.cli"},
+          }
+        - {
+            # JBoss EAP 6 instance for the petclinic application (note: toggle role and app to deploy from Nexus)
+            role: "rh-jboss-eap",
+            jboss_eap_golden_image_name: "jboss-eap-7.0.1_GI",
+            jboss_eap_instance_name: "petclinic",
+            jboss_eap_instance_standalone_file: "standalone-full-ha.xml",
+            jboss_eap_instance_port_offset: "1000",
+            app_list: { "petclinic.war" },
+            cli_list: { "add_datasource.cli", "add_mod_cluster_7.cli"},
+            #app_mvn_list: [ { g: "com.redhat.jboss", a: "petclinic.war", v: "1.0", e: "war" } ],
+          }
+        - {
+            # JBoss EAP 7 instance for the jenkins application
+            role: "rh-jboss-eap",
+            jboss_eap_golden_image_name: "jboss-eap-7.0.1_GI",
+            jboss_eap_instance_name: "jenkins",
+            jboss_eap_instance_standalone_file: "standalone-full-ha.xml",
+            jboss_eap_instance_port_offset: 2000,
+            app_list: { "jenkins.war" },
+            cli_list: { "add_datasource.cli", "add_mod_cluster_7.cli"},
+          }
+
+
+Documentation
+-------------
 
 
 
@@ -32,11 +100,11 @@ Example Playbook
 License
 -------
 
-[LICENSE](./LICENSE)
+[Apache 2.0](./LICENSE)
 
 
 Author Information
 ------------------
 
-* [Marc Zottner] (https://github.com/Maarc)
-* [Roeland van de Pol] (https://github.com/roelandpol)
+* [Marc Zottner](https://github.com/Maarc)
+* [Roeland van de Pol](https://github.com/roelandpol)

@@ -1,0 +1,4 @@
+---
+
+- src: https://github.com/Maarc/ansible-role-redhat-jboss-common
+  name: rh-jboss-common
