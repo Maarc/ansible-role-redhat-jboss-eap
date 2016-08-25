@@ -1,5 +1,8 @@
 ---
 
+# Name of the separate running Red Hat JBoss EAP instance
+jboss_eap_instance_name: default
+
 # System user configuration
 jboss:
   user: jboss
@@ -10,16 +13,13 @@ jboss:
 # Value for the xms and xmx (both are set equal)
 jvm_xm: 512
 
-# Name of the separate JBoss EAP instance
-jboss_eap_instance_name: default
-
 # Port offset for the JBoss EAP instance
 jboss_eap_instance_port_offset: 0
 
 # Port used only during updates using the CLI (port should be available)
 jboss_eap_instance_cli_default_port: 8888
 
-# Default value for the used standane xml file
+# Name of the used standalone XML file
 jboss_eap_instance_standalone_file: standalone.xml
 
 # Application lists

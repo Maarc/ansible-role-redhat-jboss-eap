@@ -46,41 +46,17 @@ Role Variables
 | `jboss_eap_instance_name` | `default` | (mandatory) Name of the separate running Red Hat JBoss EAP instance. |
 | `jboss_eap_golden_image_name` | `` | (mandatory) Name of the used Red Hat JBoss EAP golden image. |
 | `download_dir` | `/tmp` | Directory containing all downloaded middleware  on the managed remote host. |
-
-
-
-# System user configuration
-jboss:
-  user: jboss
-  group: jboss
-  group_id: 500
-  user_home: "/opt/jboss"
-
-# Value for the xms and xmx (both are set equal)
-jvm_xm: 512
-
-# Name of the separate JBoss EAP instance
-jboss_eap_instance_name: default
-
-# Port offset for the JBoss EAP instance
-jboss_eap_instance_port_offset: 0
-
-# Port used only during updates using the CLI (port should be available)
-jboss_eap_instance_cli_default_port: 8888
-
-# Default value for the used standane xml file
-jboss_eap_instance_standalone_file: standalone.xml
-
-# Application lists
-app_list: { }
-app_mvn_list: { }
-
-# List of CLI files to be used for the configuration.
-cli_list: { }
-
-
-
-
+| `jboss.user` | `jboss` | Linux user name used for running EAP |
+| `jboss.group` | `jboss` | Linux group name used for the `jboss.user` |
+| `jboss.group_id` | `500` | Linux group id taken for `jboss.group` |
+| `jboss.user_home` | `/opt/jboss` | Linux home directory for `jboss.user`  |
+| `jvm_xm` | `512` | Value for the xms and xmx (both are set equal) in MB  |
+| `jboss_eap_instance_port_offset` | `0` | Port offset for the JBoss EAP instance  |
+| `jboss_eap_instance_cli_default_port` | `8888` | Port used only during updates using the CLI (port should be available) |
+| `jboss_eap_instance_standalone_file` | `standalone.xml` | Name of the used standalone XML file |
+| `app_list` | `{ }` | List of the Java applications to be deployed |
+| `app_mvn_list` | `{ }` | List of the Java applications to be deployed as maven artifacts |
+| `cli_list` | `{ }` | List of CLI files to be used for the configuration |
 
 
 Example Playbook
@@ -126,12 +102,14 @@ Here is a playbook creating three JBoss EAP instances on every host in "jboss-gr
 Structure
 ---------
 
-- `tasks/main.yml` coordinates the execution of the different tasks
-- `tasks/00__prepare.yml` does some checks and creates a
-- `tasks/01__copy_and_unpack.yml`
-- `tasks/02__configure.yml`
-- `tasks/03__graceful_removal.yml`
-- `tasks/05__register_service.yml`
+- `defaults/main.yml` centralize the default variables that could be overridden
+- `tasks/main.yml` coordinate the execution of the different tasks
+- `tasks/00__prepare.yml` check and create the linux user, group and home directory for the JBoss instance.
+- `tasks/01__copy_and_unpack.yml` download the selected golden image in the `download_dir` and unzip it
+- `tasks/02__configure.yml` used to check potential changes to the existing configuration (step 02) and to conduct the changes if necessary (step 04)
+- `tasks/03__graceful_removal.yml` gracefully stops and removes the current running instance if necessary (based on the outcome of step 02)
+- `tasks/05__register_service.yml` register the instance as a linux service
+- `vars/main.yml` centralize some convenience variables that should not be overridden
 
 
 License
