@@ -18,37 +18,69 @@ Core implemented features in this role:
 Please have a look at [this example](https://github.com/Maarc/ansible_middleware_soe) showing how to easily operate Red Hat JBoss middleware products using this role.
 
 
-
 Requirements
 ------------
 
-This has been tested on Ansible 1.9.4 and higher. It requires Red Hat Enterprise Linux 7.
+This role has been tested on Ansible 2.0.2.0 and 2.1.1.0. It requires Red Hat Enterprise Linux 7.
 
 
 Dependencies
 ------------
 
-None.
+The "rh-jboss-common" role is required. It could be imported as follows:
+
+    ansible-galaxy install -r requirements.yml -p roles
 
 
 Installation
 ------------
 
-  ansible-galaxy install Maarc.rh-jboss-common
-
-
+    ansible-galaxy install Maarc.rh-jboss-eap
 
 
 Role Variables
 --------------
 
+| Name              | Default Value       | Description          |
+|-------------------|---------------------|----------------------|
+| `jboss_eap_instance_name` | `default` | (mandatory) Name of the separate running Red Hat JBoss EAP instance. |
+| `jboss_eap_golden_image_name` | `` | (mandatory) Name of the used Red Hat JBoss EAP golden image. |
+| `download_dir` | `/tmp` | Directory containing all downloaded middleware  on the managed remote host. |
 
 
 
-Dependencies
-------------
+# System user configuration
+jboss:
+  user: jboss
+  group: jboss
+  group_id: 500
+  user_home: "/opt/jboss"
 
--
+# Value for the xms and xmx (both are set equal)
+jvm_xm: 512
+
+# Name of the separate JBoss EAP instance
+jboss_eap_instance_name: default
+
+# Port offset for the JBoss EAP instance
+jboss_eap_instance_port_offset: 0
+
+# Port used only during updates using the CLI (port should be available)
+jboss_eap_instance_cli_default_port: 8888
+
+# Default value for the used standane xml file
+jboss_eap_instance_standalone_file: standalone.xml
+
+# Application lists
+app_list: { }
+app_mvn_list: { }
+
+# List of CLI files to be used for the configuration.
+cli_list: { }
+
+
+
+
 
 
 Example Playbook
@@ -91,10 +123,15 @@ Here is a playbook creating three JBoss EAP instances on every host in "jboss-gr
           }
 
 
-Documentation
--------------
+Structure
+---------
 
-
+- `tasks/main.yml` coordinates the execution of the different tasks
+- `tasks/00__prepare.yml` does some checks and creates a
+- `tasks/01__copy_and_unpack.yml`
+- `tasks/02__configure.yml`
+- `tasks/03__graceful_removal.yml`
+- `tasks/05__register_service.yml`
 
 
 License
