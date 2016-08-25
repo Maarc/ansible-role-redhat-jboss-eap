@@ -5,7 +5,7 @@ Ansible role: "Red Hat JBoss EAP" [![Build Status](https://travis-ci.org/Maarc/a
 Description
 -----------
 
-Advanced Ansible role that installs and manages instances of [Red Hat JBoss Enterprise Application Platform (EAP) 6 or 7](https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/).
+Advanced Ansible role that manages [Red Hat JBoss Enterprise Application Platform (EAP) 6 or 7](https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/) instances.
 
 Core implemented features in this role:
 
