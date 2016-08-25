@@ -20,4 +20,4 @@ galaxy_info:
 # Several Red Hat JBoss EAP instances could be setup on the same host (cf. https://docs.ansible.com/ansible/playbooks_roles.html#task-include-files-and-encouraging-reuse)
 allow_duplicates: yes
 
-dependencies: [ 'Maarc.rh-jboss-common' ]
+dependencies: [ 'Maarc.rh-jboss-common,,rh-jboss-common' ]
