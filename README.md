@@ -44,7 +44,7 @@ Role Variables
 | Name              | Default Value       | Description          |
 |-------------------|---------------------|----------------------|
 | `jboss_eap_instance_name` | `default` | (mandatory) Name of the separate running Red Hat JBoss EAP instance. |
-| `jboss_eap_golden_image_name` | `` | (mandatory) Name of the used Red Hat JBoss EAP golden image. |
+| `jboss_eap_golden_image_name` |  | (mandatory) Name of the used Red Hat JBoss EAP golden image. |
 | `download_dir` | `/tmp` | Directory containing all downloaded middleware  on the managed remote host. |
 | `jboss.user` | `jboss` | Linux user name used for running EAP |
 | `jboss.group` | `jboss` | Linux group name used for the `jboss.user` |
@@ -66,8 +66,8 @@ Here is a playbook creating three JBoss EAP instances on every host in "jboss-gr
 
     - hosts: "jboss-group"
       roles:
+        # JBoss EAP 7 instance for the ticket-monster application
         - {
-            # JBoss EAP 7 instance for the ticket-monster application
             role: "rh-jboss-eap",
             jboss_eap_golden_image_name: "jboss-eap-6.4.8_GI",
             jboss_eap_instance_name: "ticket_monster",
@@ -75,20 +75,19 @@ Here is a playbook creating three JBoss EAP instances on every host in "jboss-gr
             jboss_eap_instance_port_offset: 0,
             app_list: { "ticket-monster.war" },
             cli_list: { "add_datasource.cli", "add_mod_cluster_6.cli"},
-          }
+        }
+        # JBoss EAP 6 instance for the petclinic application
         - {
-            # JBoss EAP 6 instance for the petclinic application (note: toggle role and app to deploy from Nexus)
             role: "rh-jboss-eap",
             jboss_eap_golden_image_name: "jboss-eap-7.0.1_GI",
             jboss_eap_instance_name: "petclinic",
             jboss_eap_instance_standalone_file: "standalone-full-ha.xml",
             jboss_eap_instance_port_offset: "1000",
-            app_list: { "petclinic.war" },
-            cli_list: { "add_datasource.cli", "add_mod_cluster_7.cli"},
-            #app_mvn_list: [ { g: "com.redhat.jboss", a: "petclinic.war", v: "1.0", e: "war" } ],
-          }
+            app_mvn_list: [ { g: "com.redhat.jboss", a: "petclinic.war", v: "1.0", e: "war" } ],
+            cli_list: { "add_datasource.cli", "add_mod_cluster_7.cli"}
+        }
+        # JBoss EAP 7 instance for the jenkins application
         - {
-            # JBoss EAP 7 instance for the jenkins application
             role: "rh-jboss-eap",
             jboss_eap_golden_image_name: "jboss-eap-7.0.1_GI",
             jboss_eap_instance_name: "jenkins",
@@ -96,7 +95,7 @@ Here is a playbook creating three JBoss EAP instances on every host in "jboss-gr
             jboss_eap_instance_port_offset: 2000,
             app_list: { "jenkins.war" },
             cli_list: { "add_datasource.cli", "add_mod_cluster_7.cli"},
-          }
+        }
 
 
 Structure
