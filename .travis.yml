@@ -42,7 +42,7 @@ script:
   - ansible-playbook -i test/inventory test/main.yml --list-tasks
 
   # Run the role/playbook with ansible-playbook.
-  - sudo ansible-playbook -i test/inventory test/main.yml
+  #- sudo ansible-playbook -i test/inventory test/main.yml
 
 notifications:
   # notify ansible galaxy of test results
