@@ -1,0 +1,19 @@
+---
+- name: Bring up docker containers
+  hosts: localhost
+  gather_facts: false
+  vars:
+    inventory:
+      - name: rh-jboss-eap_host1
+        image: "chrismeyers/centos7"
+  roles:
+    - role: provision_docker
+      provision_docker_inventory: "{{ inventory }}"
+      provision_docker_privileged: True
+
+- name: Run tests
+  hosts: docker_containers
+  vars_files:
+    - vars.yml
+  roles:
+    - role: rh-jboss-eap

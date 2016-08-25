@@ -1,12 +1,13 @@
 ---
 
+# System user configuration
 jboss:
   user: jboss
   group: jboss
   group_id: 500
   user_home: "/opt/jboss"
 
-# Value for the xms and xmx (both are equal)
+# Value for the xms and xmx (both are set equal)
 jvm_xm: 512
 
 # Name of the separate JBoss EAP instance
@@ -24,4 +25,6 @@ jboss_eap_instance_standalone_file: standalone.xml
 # Application lists
 app_list: { }
 app_mvn_list: { }
+
+# List of CLI files to be used for the configuration.
 cli_list: { }

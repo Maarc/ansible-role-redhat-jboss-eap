@@ -1,0 +1,7 @@
+---
+
+- src: chrismeyersfsu.provision_docker
+  name: provision_docker
+
+- src: Maarc.rh-jboss-common
+  name: rh-jboss-common

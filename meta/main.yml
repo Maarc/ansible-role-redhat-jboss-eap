@@ -8,7 +8,7 @@ galaxy_info:
   - name: EL
     versions:
     - 7
-  categories:
+  galaxy_tags:
   - cloud
   - development
   - packaging
@@ -20,5 +20,4 @@ galaxy_info:
 # Several Red Hat JBoss EAP instances could be setup on the same host (cf. https://docs.ansible.com/ansible/playbooks_roles.html#task-include-files-and-encouraging-reuse)
 allow_duplicates: yes
 
-dependencies:
-    - { role: rh-jboss-common }
+dependencies: [ 'rh-jboss-common' ]

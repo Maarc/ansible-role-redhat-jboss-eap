@@ -1,7 +1,0 @@
----
-
-- src: https://github.com/Maarc/ansible-role-redhat-jboss-common
-  name: rh-jboss-common
-
-- src: https://github.com/Maarc/ansible-role-redhat-jboss-eap
-  name: rh-jboss-eap
