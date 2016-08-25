@@ -21,5 +21,6 @@ galaxy_info:
 allow_duplicates: yes
 
 dependencies:
-  - role: Maarc.rh-jboss-common
-    name: rh-jboss-common
+  - src: 'Maarc.rh-jboss-common'
+    role: 'Maarc.rh-jboss-common'
+    name: 'rh-jboss-common'
