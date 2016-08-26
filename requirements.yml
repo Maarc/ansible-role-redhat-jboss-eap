@@ -1,4 +1,5 @@
 ---
 
-- src: Maarc.rh-jboss-common
-  name: rh-jboss-common
+- name: rh-jboss-common
+  src: Maarc.rh-jboss-common
+  #src: https://github.com/Maarc/ansible-role-redhat-jboss-common
