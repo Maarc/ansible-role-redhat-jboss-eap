@@ -22,5 +22,5 @@ allow_duplicates: yes
 
 dependencies:
   - src: https://github.com/Maarc/ansible-role-redhat-jboss-eap
+    version: master
     name: rh-jboss-common
-    version: ec43db99315f683711fe34226899606c11f677f8
