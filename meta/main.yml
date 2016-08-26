@@ -22,5 +22,4 @@ allow_duplicates: yes
 
 dependencies:
   - src: 'https://github.com/Maarc/ansible-role-redhat-jboss-eap'
-    role: 'Maarc.rh-jboss-common'
     name: 'rh-jboss-common'
