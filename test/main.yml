@@ -7,7 +7,7 @@
       - name: rh-jboss-eap_host1
         image: "chrismeyers/centos7"
   roles:
-    - role: provision_docker
+    - role: chrismeyersfsu.provision_docker
       provision_docker_inventory: "{{ inventory }}"
       provision_docker_privileged: True
 
@@ -16,4 +16,4 @@
   vars_files:
     - vars.yml
   roles:
-    - role: rh-jboss-eap
+    - role: Maarc.rh-jboss-eap

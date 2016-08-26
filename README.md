@@ -27,7 +27,11 @@ This role has been tested on Ansible 2.0.2.0 and 2.1.1.0. It requires Red Hat En
 Dependencies
 ------------
 
-The "rh-jboss-common" role is required. It could be imported as follows:
+The "Maarc.rh-jboss-common" role is required. It could be imported as follows:
+
+    ansible-galaxy install Maarc.rh-jboss-common -p roles
+
+or
 
     ansible-galaxy install -r requirements.yml -p roles
 
@@ -35,7 +39,7 @@ The "rh-jboss-common" role is required. It could be imported as follows:
 Installation
 ------------
 
-    ansible-galaxy install Maarc.rh-jboss-eap
+    ansible-galaxy install Maarc.rh-jboss-eap -p roles
 
 
 Role Variables
@@ -71,7 +75,7 @@ Here is a playbook creating three JBoss EAP instances on every host in "jboss-gr
       roles:
         # JBoss EAP 7 instance for the ticket-monster application
         - {
-            role: "rh-jboss-eap",
+            role: "Maarc.rh-jboss-eap",
             jboss_eap_golden_image_name: "jboss-eap-6.4.8_GI",
             jboss_eap_instance_name: "ticket_monster",
             jboss_eap_instance_standalone_file: "standalone-full-ha.xml",
@@ -81,7 +85,7 @@ Here is a playbook creating three JBoss EAP instances on every host in "jboss-gr
         }
         # JBoss EAP 6 instance for the petclinic application
         - {
-            role: "rh-jboss-eap",
+            role: "Maarc.rh-jboss-eap",
             jboss_eap_golden_image_name: "jboss-eap-7.0.1_GI",
             jboss_eap_instance_name: "petclinic",
             jboss_eap_instance_standalone_file: "standalone-full-ha.xml",
@@ -91,7 +95,7 @@ Here is a playbook creating three JBoss EAP instances on every host in "jboss-gr
         }
         # JBoss EAP 7 instance for the jenkins application
         - {
-            role: "rh-jboss-eap",
+            role: "Maarc.rh-jboss-eap",
             jboss_eap_golden_image_name: "jboss-eap-7.0.1_GI",
             jboss_eap_instance_name: "jenkins",
             jboss_eap_instance_standalone_file: "standalone-full-ha.xml",
