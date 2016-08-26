@@ -14,3 +14,8 @@ jboss_eap_instance_service_name: "jboss_{{ jboss_eap_instance_name }}"
 
 # Offsetted port used for CLI updates
 jboss_eap_instance_cli_port: "{{ jboss_eap_instance_cli_default_port|int + jboss_eap_instance_port_offset|int }}"
+
+# Configuration of the Nexus server to connect to for retrieving Nexus applications.
+nexus_base_url: "http://{{ nexus_host }}/nexus/service/local"
+nexus_upload_url: "{{ nexus_base_url }}/artifact/maven/content"
+nexus_download_url: "{{ nexus_base_url }}/repositories/{{ nexus_repository_id }}/content"

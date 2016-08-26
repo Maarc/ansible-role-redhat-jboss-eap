@@ -31,9 +31,32 @@ jboss_eap_instance_cli_default_port: 8888
 # Name of the used standalone XML file
 jboss_eap_instance_standalone_file: standalone.xml
 
-# Application lists
+
+######### CLI files used for the JBoss EAP configuration
+
+# List of CLI files.
+cli_list: { }
+
+# Local directory containing the CLI files in cli_list. Mandatory if 'cli_list' is not empty.
+cli_dir: ""
+
+
+######### Applications retrieved per file copy
+
+# List of the local appplications to be deployed.
 app_list: { }
+
+# Local directory containing the files listed in app_list. Mandatory if 'app_list' is not empty.
+app_dir: ""
+
+
+######### Applications retrieved over Nexus
+
+# List of the nexus/maven applications to be deployed.
 app_mvn_list: { }
 
-# List of CLI files to be used for the configuration.
-cli_list: { }
+# Nexus connectivity information
+nexus_user: ""
+nexus_password: ""
+nexus_host: ""
+nexus_repository_id: ""

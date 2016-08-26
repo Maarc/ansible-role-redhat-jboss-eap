@@ -1,5 +1,9 @@
 ---
 
+- name: (00) Check "download_dir" variable
+  fail: msg="This role requires 'download_dir' to be set and non empty."
+  when: download_dir is not defined or download_dir == ''
+
 - name: (00) Check "jboss_eap_instance_name" variable
   fail: msg="This role requires 'jboss_eap_instance_name' to be set and non empty."
   when: jboss_eap_instance_name is not defined or jboss_eap_instance_name == ''
@@ -7,6 +11,30 @@
 - name: (00) Check "jboss_eap_golden_image_name" variable
   fail: msg="This role requires 'jboss_eap_golden_image_name' to be set and non empty."
   when: jboss_eap_golden_image_name is not defined or jboss_eap_golden_image_name == ''
+
+- name: (00) Check "cli_dir" variable
+  fail: msg="This role requires 'cli_dir' to be set and non empty as it defines some CLI files in 'cli_list'"
+  when: cli_list.0 is defined and (cli_dir is not defined or cli_dir == '')
+
+- name: (00) Check "app_dir" variable
+  fail: msg="This role requires 'app_dir' to be set and non empty as it defines some applications in 'app_list'"
+  when: app_list.0 is defined and (app_dir is not defined or app_dir == '')
+
+- name: (00) Check "nexus_user" variable
+  fail: msg="This role requires 'nexus_user' to be set and non empty as it defines some applications in 'app_mvn_list'"
+  when: app_mvn_list.0 is defined and (nexus_user is not defined or nexus_user == '')
+
+- name: (00) Check "nexus_password" variable
+  fail: msg="This role requires 'nexus_password' to be set and non empty as it defines some applications in 'app_mvn_list'"
+  when: app_mvn_list.0 is defined and (nexus_password is not defined or nexus_password == '')
+
+- name: (00) Check "nexus_host" variable
+  fail: msg="This role requires 'nexus_host' to be set and non empty as it defines some applications in 'app_mvn_list'"
+  when: app_mvn_list.0 is defined and (nexus_host is not defined or nexus_host == '')
+
+- name: (00) Check "nexus_repository_id" variable
+  fail: msg="This role requires 'nexus_repository_id' to be set and non empty as it defines some applications in 'app_mvn_list'"
+  when: app_mvn_list.0 is defined and (nexus_repository_id is not defined or nexus_repository_id == '')
 
 - name: (00) Check "bin_dir" variable
   fail: msg="This role requires 'bin_dir' to be set and non empty."

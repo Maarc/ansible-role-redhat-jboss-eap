@@ -45,25 +45,57 @@ Installation
 Role Variables
 --------------
 
+*General variables*
+
 | Name              | Default Value       | Description          |
 |-------------------|---------------------|----------------------|
-| `jboss_eap_instance_name` | `default` | (mandatory) Name of the separate running Red Hat JBoss EAP instance |
-| `jboss_eap_golden_image_name` | empty | (mandatory) Name of the used Red Hat JBoss EAP golden image |
-| `jboss_eap_instance_admin_user` | `redhat` | Red Hat JBoss EAP admin user name |
-| `jboss_eap_instance_admin_password` | `ba2caa9378fa898f1dea88804abe52b4` | Red Hat JBoss EAP admin password ("redhat123!") hashed according to HEX( MD5( username ':' realm ':' password)) |
-| `jboss_eap_instance_admin_groups` | empty | Red Hat JBoss EAP admin user groups |
-| `download_dir` | `/tmp` | Directory containing all downloaded middleware  on the managed remote host |
+| `download_dir` | `/tmp` | Directory containing all downloaded middleware on the managed remote host. Mandatory |
 | `jboss.user` | `jboss` | Linux user name used for running EAP |
 | `jboss.group` | `jboss` | Linux group name used for the `jboss.user` |
 | `jboss.group_id` | `500` | Linux group id taken for `jboss.group` |
 | `jboss.user_home` | `/opt/jboss` | Linux home directory for `jboss.user`  |
+
+
+*Instance specific variables*
+
+| Name              | Default Value       | Description          |
+|-------------------|---------------------|----------------------|
+| `jboss_eap_instance_name` | `default` | Name of the separate running Red Hat JBoss EAP instance. Mandatory |
+| `jboss_eap_instance_admin_user` | `redhat` | Red Hat JBoss EAP admin user name. Mandatory |
+| `jboss_eap_instance_admin_password` | `ba2caa9378fa898f1dea88804abe52b4` | Red Hat JBoss EAP admin password ("redhat123!") hashed according to HEX( MD5( username ':' realm ':' password)). Mandatory |
+| `jboss_eap_instance_admin_groups` | empty | Red Hat JBoss EAP admin user groups |
+| `jboss_eap_golden_image_name` | empty | Name of the used Red Hat JBoss EAP golden image. Mandatory |
 | `jvm_xm` | `512` | Value for the xms and xmx (both are set equal) in MB  |
 | `jboss_eap_instance_port_offset` | `0` | Port offset for the JBoss EAP instance  |
 | `jboss_eap_instance_cli_default_port` | `8888` | Port used only during updates using the CLI (port should be available) |
 | `jboss_eap_instance_standalone_file` | `standalone.xml` | Name of the used standalone XML file |
-| `app_list` | `{ }` | List of the Java applications to be deployed |
-| `app_mvn_list` | `{ }` | List of the Java applications to be deployed as maven artifacts |
+
+
+*Usage of CLI files for the JBoss EAP configuration*
+
+| Name              | Default Value       | Description          |
+|-------------------|---------------------|----------------------|
 | `cli_list` | `{ }` | List of CLI files to be used for the configuration |
+| `cli_dir` | empty | Local directory containing the CLI files in cli_list. Mandatory if `cli_list` is not empty |
+
+
+*Java application deployments per file copy (direct)*
+
+| Name              | Default Value       | Description          |
+|-------------------|---------------------|----------------------|
+| `app_list` | `{ }` | List of the Java applications to be deployed |
+| `app_dir` | empty | Local directory containing the files listed in app_list. Mandatory if 'app_list' is not empty |
+
+
+*Java application deployments per over Nexus*
+
+| Name              | Default Value       | Description          |
+|-------------------|---------------------|----------------------|
+| `app_mvn_list` | `{ }` | List of the nexus/maven applications to be deployed |
+| `nexus_user` | empty | Nexus user name. Mandatory if 'app_mvn_list' is not empty. |
+| `nexus_password` | empty | Nexus user password. Mandatory if 'app_mvn_list' is not empty. |
+| `nexus_host` | empty | Nexus host name or IP. Mandatory if 'app_mvn_list' is not empty. |
+| `nexus_repository_id` | empty | Nexus repository id (e.g. "releases"). Mandatory if 'app_mvn_list' is not empty. |
 
 
 Example Playbook
@@ -83,7 +115,7 @@ Here is a playbook creating three JBoss EAP instances on every host in "jboss-gr
             app_list: { "ticket-monster.war" },
             cli_list: { "add_datasource.cli", "add_mod_cluster_6.cli"},
         }
-        # JBoss EAP 6 instance for the petclinic application
+        # JBoss EAP 7 instance for the petclinic application
         - {
             role: "Maarc.rh-jboss-eap",
             jboss_eap_golden_image_name: "jboss-eap-7.0.1_GI",
