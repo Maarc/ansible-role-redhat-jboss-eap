@@ -1,0 +1,3 @@
+test/roles/provision_docker
+test/roles/rh-jboss-common
+*.retry
