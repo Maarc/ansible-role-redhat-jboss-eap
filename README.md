@@ -43,9 +43,12 @@ Role Variables
 
 | Name              | Default Value       | Description          |
 |-------------------|---------------------|----------------------|
-| `jboss_eap_instance_name` | `default` | (mandatory) Name of the separate running Red Hat JBoss EAP instance. |
-| `jboss_eap_golden_image_name` |  | (mandatory) Name of the used Red Hat JBoss EAP golden image. |
-| `download_dir` | `/tmp` | Directory containing all downloaded middleware  on the managed remote host. |
+| `jboss_eap_instance_name` | `default` | (mandatory) Name of the separate running Red Hat JBoss EAP instance |
+| `jboss_eap_golden_image_name` | empty | (mandatory) Name of the used Red Hat JBoss EAP golden image |
+| `jboss_eap_instance_admin_user` | `redhat` | Red Hat JBoss EAP admin user name |
+| `jboss_eap_instance_admin_password` | `ba2caa9378fa898f1dea88804abe52b4` | Red Hat JBoss EAP admin password ("redhat123!") hashed according to HEX( MD5( username ':' realm ':' password)) |
+| `jboss_eap_instance_admin_groups` | empty | Red Hat JBoss EAP admin user groups |
+| `download_dir` | `/tmp` | Directory containing all downloaded middleware  on the managed remote host |
 | `jboss.user` | `jboss` | Linux user name used for running EAP |
 | `jboss.group` | `jboss` | Linux group name used for the `jboss.user` |
 | `jboss.group_id` | `500` | Linux group id taken for `jboss.group` |

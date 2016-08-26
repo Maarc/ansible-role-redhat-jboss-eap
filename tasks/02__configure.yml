@@ -142,9 +142,8 @@
     dest: "{{ item.dest }}"
     line: "{{ item.line }}"
   with_items:
-    - { dest: "{{ target_dir }}/configuration/mgmt-users.properties", line: '# user: redhat password: redhat123!' }
-    - { dest: "{{ target_dir }}/configuration/mgmt-users.properties", line: 'redhat=ba2caa9378fa898f1dea88804abe52b4' }
-    - { dest: "{{ target_dir }}/configuration/mgmt-groups.properties", line: 'redhat=' }
+    - { dest: "{{ target_dir }}/configuration/mgmt-users.properties", line: "{{ jboss_eap_instance_admin_user }}={{ jboss_eap_instance_admin_password }}" }
+    - { dest: "{{ target_dir }}/configuration/mgmt-groups.properties", line: '{{ jboss_eap_instance_admin_user}}={{ jboss_eap_instance_admin_groups }}' }
   register: conf_10
 
 - name: "{{ jboss_eap_instance_name }} {{ info }} Copy CLI file from the file system"
