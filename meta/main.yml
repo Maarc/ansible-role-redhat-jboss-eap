@@ -21,7 +21,7 @@ galaxy_info:
 allow_duplicates: yes
 
 dependencies:
-  - src: 'git+https://github.com/Maarc/ansible-role-redhat-jboss-eap.git'
-    version: 'master'
-    name: 'rh-jboss-common'
-    role: 'Maarc.rh-jboss-common'
+  - src: git+https://github.com/Maarc/ansible-role-redhat-jboss-eap.git
+    version: master
+    name: rh-jboss-common
+    role: Maarc.rh-jboss-common
