@@ -1,4 +1,4 @@
-Ansible role: "Red Hat JBoss EAP" [![Build Status](https://travis-ci.org/Maarc/ansible-role-redhat-jboss-eap.svg?branch=master)](https://travis-ci.org/Maarc/ansible-role-redhat-jboss-eap)
+Ansible role: "Red Hat JBoss EAP" [![Build Status](https://travis-ci.org/Maarc/ansible-role-redhat-jboss-eap.svg?branch=master)](https://travis-ci.org/Maarc/ansible-role-redhat-jboss-eap) [![Galaxy](https://img.shields.io/badge/galaxy-maarc.rh--jboss--eap-blue.svg?style=flat)](https://galaxy.ansible.com/Maarc/rh-jboss-eap)
 =================================
 
 
