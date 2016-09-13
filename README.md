@@ -49,7 +49,7 @@ Role Variables
 
 | Name              | Default Value       | Description          |
 |-------------------|---------------------|----------------------|
-| `download_dir` | `/tmp` | Directory containing all downloaded middleware on the managed remote host. Mandatory |
+| `download_dir` | `/tmp` | Directory containing all required middleware binaries on the managed remote host. Mandatory |
 | `jboss.user` | `jboss` | Linux user name used for running EAP |
 | `jboss.group` | `jboss` | Linux group name used for the `jboss.user` |
 | `jboss.group_id` | `500` | Linux group id taken for `jboss.group` |

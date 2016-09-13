@@ -89,7 +89,7 @@
   with_items:
     # Set JVM Xms
     - { regexp: '^(.*)Xms(\d+)m(.*)$', line: "\\1Xms{{ jvm_xm }}m\\3" }
-    # Set JVM Xms
+    # Set JVM Xmx
     - { regexp: '^(.*)Xmx(\d+)m(.*)$', line: "\\1Xmx{{ jvm_xm }}m\\3" }
     # Remove JVM MaxPermSize
     - { regexp: '^(.*) -XX:MaxPermSize=(\d+)m(.*)$', line: "\\1\\3" }
