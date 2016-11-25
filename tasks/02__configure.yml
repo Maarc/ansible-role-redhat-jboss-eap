@@ -26,7 +26,7 @@
       owner: "{{ jboss.user }}"
       group: "{{ jboss.group }}"
       state: directory
-      mode: "0755"
+      mode: "0750"
 
   - name: "{{ jboss_eap_instance_name }} {{ info }} Copy init.d script (jboss-as-standalone.sh)"
     copy:
@@ -35,7 +35,7 @@
       group: "{{ jboss.group }}"
       src: "{{ jboss_home }}/bin/init.d/jboss-as-standalone.sh"
       dest: "{{ target_dir }}/service/jboss-as-standalone.sh"
-      mode: "0755"
+      mode: "0750"
 
   when: conf_00.stat.isdir is undefined or conf_00.stat.isdir == False
 
@@ -62,10 +62,10 @@
     group: "{{ jboss.group }}"
     src: jboss-as.conf.j2
     dest: "{{ target_dir }}/service/jboss-as.conf"
-    mode: "0755"
+    mode: "0750"
   register: conf_03
 
-- name: "{{ jboss_eap_instance_name }} {{ info }} Update standalone.conf (1/2)"
+- name: "{{ jboss_eap_instance_name }} {{ info }} Update standalone.conf (1/3)"
   lineinfile:
     dest: "{{ target_dir }}/configuration/standalone.conf"
     line: "{{ item }}"
@@ -75,12 +75,19 @@
     # Set management binding address
     - "JAVA_OPTS=\"$JAVA_OPTS -Djboss.bind.address.management={{ jboss_eap_bind_ip_address_management }}\""
     # Set port offset and time zone
+  register: conf_04_1
+
+- name: "{{ jboss_eap_instance_name }} {{ info }} Update standalone.conf (2/3)"
+  lineinfile:
+    dest: "{{ target_dir }}/configuration/standalone.conf"
+    line: "{{ item }}"
+  with_items:
     - "JAVA_OPTS=\"$JAVA_OPTS -Duser.timezone={{ timezone }} -Djboss.socket.binding.port-offset={{ jboss_eap_instance_port_offset }}\""
     # Set node name
     - "JAVA_OPTS=\"$JAVA_OPTS -Djboss.node.name={{ ansible_hostname }}__{{ jboss_eap_instance_name }}\""
-  register: conf_04
+  register: conf_04_2
 
-- name: "{{ jboss_eap_instance_name }} {{ info }} Update standalone.conf (2/2)"
+- name: "{{ jboss_eap_instance_name }} {{ info }} Update standalone.conf (3/3)"
   lineinfile:
     dest: "{{ target_dir }}/configuration/standalone.conf"
     regexp: "{{ item.regexp }}"
@@ -125,7 +132,7 @@
     group: "{{ jboss.group }}"
     src: jboss-as-standalone.service.j2
     dest: "{{ target_dir }}/service/{{ jboss_eap_instance_service_name }}.service"
-    mode: "0755"
+    mode: "0750"
   register: conf_08
 
 - name: "{{ jboss_eap_instance_name }} {{ info }} Generate instance.info file"
@@ -134,7 +141,7 @@
     group: "{{ jboss.group }}"
     src: instance.info.j2
     dest: "{{ target_dir }}/instance.info"
-    mode: "0644"
+    mode: "0640"
   register: conf_09
 
 - name: "{{ jboss_eap_instance_name }} {{ info }} Update mgmt-*.properties"
@@ -146,6 +153,7 @@
     - { dest: "{{ target_dir }}/configuration/mgmt-groups.properties", line: '{{ jboss_eap_instance_admin_user}}={{ jboss_eap_instance_admin_groups }}' }
   register: conf_10
 
+# "check_mode: no" to ensure that the check-mode CLI files are present
 - name: "{{ jboss_eap_instance_name }} {{ info }} Copy CLI file from the file system"
   copy:
     owner: "{{ jboss.user }}"
@@ -155,6 +163,17 @@
   with_items: "{{ cli_list }}"
   register: conf_11
 
+- name: "{{ jboss_eap_instance_name }} {{ info }} Update permissions"
+  file: path={{ item }} owner={{ jboss.user }} group={{ jboss.group }} state=directory recurse=yes mode="o-rx"
+  with_items:
+    - "{{ jboss_home }}"
+    - "{{ target_dir }}"
+  register: conf_12
+
+- name: "{{ jboss_eap_instance_name }} {{ info }} Update ACL"
+  acl: name={{ target_dir }} etype=other state=present permissions='---' default=true recursive=true
+  register: conf_13
+
 - name: "{{ jboss_eap_instance_name }} {{ info }} Set is_modified"
   set_fact:
-    is_modified: distribution.changed or conf_01.changed or conf_02.changed or conf_03.changed or conf_04.changed or conf_05.changed or conf_06.changed or conf_07.changed or conf_08.changed or conf_09.changed or conf_10.changed or conf_11.changed
+    is_modified: "{{ distribution.changed or conf_01.changed or conf_02.changed or conf_03.changed or conf_04_1.changed or conf_04_2.changed or conf_05.changed or conf_06.changed or conf_07.changed or conf_08.changed or conf_09.changed or conf_10.changed or conf_11.changed or conf_12.changed or conf_13.changed }}"

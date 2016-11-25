@@ -6,19 +6,19 @@
     group: "{{ jboss.group }}"
     src: jboss-as-standalone.service.j2
     dest: "/etc/systemd/system/{{ jboss_eap_instance_service_name }}.service"
-    mode: "0755"
-  register: service
+    mode: "0750"
+  register: conf_service
 
 # Reloading systemd. Should be executed here and not as a handler.
 - name: "{{ jboss_eap_instance_name }} (05) Reload systemd"
-  when: service.changed
+  when: conf_service.changed
   command: systemctl daemon-reload
 
 - name: "{{ jboss_eap_instance_name }} (05) Execute CLI file(s)"
-  when: conf_11.changed
   become_user: "{{ jboss.user }}"
   shell: 'bash -c "nohup {{ jboss_home }}/bin/standalone.sh -c {{ jboss_eap_instance_standalone_file }} -Djboss.socket.binding.port-offset={{ jboss_eap_instance_port_offset }} -Djboss.management.native.port={{ jboss_eap_instance_cli_default_port }} -Djboss.server.base.dir={{ jboss_eap_instance_dir }} --admin-only & " && sleep 10 && {{ jboss_home }}/bin/jboss-cli.sh -c --controller=127.0.0.1:{{ jboss_eap_instance_cli_port }} --file="{{ jboss_eap_instance_dir }}/configuration/{{ item | basename }}" && pkill -TERM -f "^java(.*){{ jboss_eap_instance_dir }}"'
   with_items: "{{ cli_list }}"
+  when: conf_11.changed
   ignore_errors: yes
   register: cli_result
 

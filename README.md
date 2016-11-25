@@ -67,6 +67,7 @@ Role Variables
 | `jboss_eap_golden_image_name` | empty | Name of the used Red Hat JBoss EAP golden image. Mandatory |
 | `jvm_xm` | `512` | Value for the xms and xmx (both are set equal) in MB  |
 | `jboss_eap_instance_port_offset` | `0` | Port offset for the JBoss EAP instance  |
+| `jboss_eap_instance_cli_used_default_port` | `9999` | Default port for the native management interface |
 | `jboss_eap_instance_cli_default_port` | `8888` | Port used only during updates using the CLI (port should be available) |
 | `jboss_eap_instance_standalone_file` | `standalone.xml` | Name of the used standalone XML file |
 
