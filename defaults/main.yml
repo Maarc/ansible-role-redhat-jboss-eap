@@ -20,7 +20,18 @@ jboss:
   user_home: "/opt/jboss"
 
 # Value for the xms and xmx (both are set equal)
+### todo: have to update template/instance.info.j2 also 
 jvm_xm: 512
+jvm_file_encoding: UTF-8
+jvm_java_io_tmpdir: /tmp
+jvm_user_country: US
+jvm_user_language: en
+jvm_user_timezone: Europe/Amsterdam
+#https://access.redhat.com/solutions/748323
+#todo: https://access.redhat.com/solutions/260023
+jvm_jboss_node_name: "{{ ansible_hostname | replace('-','_') }}__{{ jboss_eap_instance_name | replace('-','_') }} "
+
+
 
 # Port offset for the JBoss EAP instance
 jboss_eap_instance_port_offset: 0
@@ -29,6 +40,7 @@ jboss_eap_instance_port_offset: 0
 jboss_eap_instance_cli_default_port: 8888
 
 # Port used by the management interface
+### todo: for eap7 it is 9990
 jboss_eap_instance_cli_used_default_port: 9999
 
 # Name of the used standalone XML file
