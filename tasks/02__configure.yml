@@ -82,9 +82,13 @@
     dest: "{{ target_dir }}/configuration/standalone.conf"
     line: "{{ item }}"
   with_items:
-    - "JAVA_OPTS=\"$JAVA_OPTS -Duser.timezone={{ timezone }} -Djboss.socket.binding.port-offset={{ jboss_eap_instance_port_offset }}\""
+    - "JAVA_OPTS=\"$JAVA_OPTS -Duser.timezone={{ jvm_user_timezone }} -Djboss.socket.binding.port-offset={{ jboss_eap_instance_port_offset }}\""
     # Set node name
-    - "JAVA_OPTS=\"$JAVA_OPTS -Djboss.node.name={{ ansible_hostname }}__{{ jboss_eap_instance_name }}\""
+    - "JAVA_OPTS=\"$JAVA_OPTS -Djboss.node.name={{ jvm_jboss_node_name }}\""
+    - "JAVA_OPTS=\"$JAVA_OPTS -Duser.language={{ jvm_user_language }}\""
+    - "JAVA_OPTS=\"$JAVA_OPTS -Duser.country={{ jvm_user_country }}\""
+    - "JAVA_OPTS=\"$JAVA_OPTS -Dfile.encoding={{ jvm_file_encoding }}\""
+    - "JAVA_OPTS=\"$JAVA_OPTS -Djava.io.tmpdir={{ jvm_java_io_tmpdir }}\""
   register: conf_04_2
 
 - name: "{{ jboss_eap_instance_name }} {{ info }} Update standalone.conf (3/3)"
